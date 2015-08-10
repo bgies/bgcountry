@@ -26,6 +26,7 @@ class BgCountryController extends Controller {
    protected $use_short_country_names = true;
    protected $use_province_short_code = true;
    protected $use_province_short_name = true;
+   protected $city_value_field = 'city_name';
    protected $add_blank_to_lists = true;
    
    
@@ -42,6 +43,8 @@ class BgCountryController extends Controller {
       $this->use_short_country_names = $this->configRepository->get('bgcountry.use_short_country_names');
       $this->use_province_short_code = $this->configRepository->get('bgcountry.use_province_short_code');
       $this->use_province_short_name = $this->configRepository->get('bgcountry.use_province_short_name');
+      $this->city_value_field = $this->configRepository->get('bgcountry.city_value_field');
+      
       $this->add_blank_to_lists = $this->configRepository->get('bgcountry.add_blank_to_lists');
   }
 
@@ -82,7 +85,8 @@ class BgCountryController extends Controller {
   			$cityCodes = $this->db->table('bgcity')
   				->where( (strlen($country_code) == 2 ? 'cty_code_2' : 'cty_code_3'), '=', $country_code)
   				->where( (strlen($province_code) < 4 ? 'prov_short_code' : 'prov_long_code'), '=', $province_code)
-  				->lists('city_name', 'id');
+  				->orderBy('city_name')
+  				->lists('city_name', $this->city_value_field);
   	
   			\Cache::forever('bgcountry_city_' . $country_code . '_' . $province_code, $cityCodes);
 

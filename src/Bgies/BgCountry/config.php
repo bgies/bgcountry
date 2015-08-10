@@ -23,6 +23,11 @@ return array(
 		 * (up to 100 characters), you can change it.
 		 */
 		'use_province_short_name'	=> true,
+		/* Which value do you want for the city. The city name will always
+		 * be displayed, and normally you will want the same as the value,
+		 * but you can use any field in the bgcity database table IE id 
+		 */
+		'city_value_field'	=> 'city_name',
 		/* Normally you will want to add a blank entry as the first entry
 		 * of the country, province and city select
 		 */
