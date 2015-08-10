@@ -26,6 +26,7 @@ class BgCountryController extends Controller {
    protected $use_short_country_names = true;
    protected $use_province_short_code = true;
    protected $use_province_short_name = true;
+   protected $add_blank_to_lists = true;
    
    
    public function __construct(Db $db)
@@ -41,13 +42,9 @@ class BgCountryController extends Controller {
       $this->use_short_country_names = $this->configRepository->get('bgcountry.use_short_country_names');
       $this->use_province_short_code = $this->configRepository->get('bgcountry.use_province_short_code');
       $this->use_province_short_name = $this->configRepository->get('bgcountry.use_province_short_name');
+      $this->add_blank_to_lists = $this->configRepository->get('bgcountry.add_blank_to_lists');
   }
 
-  private function getDbDefaultData($table_type, $fileName) {
-  		
-  	
-  }
-  
 	private function getDefaultCountryList() {
   		$countryCodes = ($this->country_codes_length == 3 ? \Cache::get('bgcountry_country_3') : \Cache::get('bgcountry_country_2'));
   		if (!$countryCodes) {
@@ -55,6 +52,7 @@ class BgCountryController extends Controller {
   				($this->use_short_country_names ? 'cty_long_name' : 'cty_short_name'),
   				($this->country_codes_length != 3 ? 'cty_code_2' : 'cty_code_3')
   			);
+           			
   			($this->country_codes_length == 3 ? \Cache::forever('bgcountry_country_3', $countryCodes) : \Cache::forever('bgcountry_country_2', $countryCodes));
   			
   		};
@@ -177,46 +175,6 @@ class BgCountryController extends Controller {
   }
   
   
-  /**
-  * Display a listing of the resource.
-  *
-  * @return Response
-  */
-  public function getForm($elementWrapper, $country_code, $province_code, $city)
-  {
-  	  $countryCodes = '';
-     if ($this->usefiles) {
-     	 $topFilePath = dirname(__FILE__) . '/lookups/';
-     	 
-     	 $countryFilePath = $topFilePath . $this->currentLocale . '/country/countrycodes.phparray.php';
-       if (\File::exists($countryFilePath)) {
-       	 $countryCodes = \File::get($countryFilePath);
-       } else {
-       	$countryFilePath = $topFilePath . $this->defaultLocale . '/country/countrycodes.phparray.php';
-       	if (\File::exists($countryFilePath)) {
-       		$countryCodes = \File::get($countryFilePath);
-       	}
-       }
-       // if we have the country_code then select it and bring in the province and city if we can
-    	 if (isset($country_code) && $country_code != '') {
-     	 	$countryCodes = str_replace('value="' . $country_code . '"', 'value="' . $country_code . '" selected="selected"', $countryCodes);
- 
-     	 	$provinceFilePath = $topFilePath . $this->currentLocale . '/country/countrycodes.phparray.php';     	 	
-     	 	
-       }
-     
-     } else {
-        
-        
-     }
-
-     
-    return view('bgcountry::country')
-    	->with('countrycodes', $countryCodes)
-      ->with('country_code', $country_code); 
-  }
-  
-  
   public function getAdmin() {
   	  	$country_languages =	$this->db->table('bgcountry_language');  	
   	
@@ -236,5 +194,9 @@ class BgCountryController extends Controller {
   	
   }
   
-  
+  	public function getCountries() {
+  		$countries = $this->getDefaultCountryList();
+  		$countryOptions = '<option value=""></option>' . implode('', $this->getSelectList($countries, ''));  		
+		return $countryOptions;  		
+  	}
 }

@@ -24,7 +24,7 @@ class BgCountryServiceProvider extends ServiceProvider
 //		$this->app->alias('bgcountry', 'Bgies\BgCountry');
 		
 		
-		include __DIR__.'/routes.php';
+		//include __DIR__.'/routes.php';
 		$this->mergeConfigFrom(
 				__DIR__.'/config.php', 'bgcountry'
 		);
@@ -53,6 +53,12 @@ class BgCountryServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+    	if (! $this->app->routesAreCached()) {
+    		//require __DIR__.'/../../routes.php';
+    		require __DIR__.'/routes.php';
+    	}  
+    	
+    	
     	$this->app->make('Bgies\BgCountry\BgCountryController');
     	
        $this->loadViewsFrom(__DIR__.'/views', 'bgcountry');

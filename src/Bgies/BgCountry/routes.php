@@ -1,17 +1,17 @@
 <?php
 
 /* Routes to get the Form */
-Route::get('bgcountry/default', 'bgies\BgCountry\BgCountryController@getDefaultForm');
-Route::post('bgcountry/multi', 'bgies\BgCountry\BgCountryController@getMultiLanguageForm');
+Route::get('bgcountry/form', ['as' => 'bgcountry.defaultform', 'uses' => 'bgies\BgCountry\BgCountryController@getDefaultForm']);
+Route::post('bgcountry/multi', ['as' => 'bgcountry.mulitform', 'uses' => 'bgies\BgCountry\BgCountryController@getMultiLanguageForm']);
 
-/* Routes for Single Language */
-Route::post('country/default', 'bgies\BgCountry\BgCountryController@getCountry');
-Route::post('province/default', 'bgies\BgCountry\BgCountryController@getProvince');
-Route::post('city/default', 'bgies\BgCountry\BgCountryController@getCity');
-/* Routes for Multi Language */
-Route::post('country/{locale}', 'bgies\BgCountry\BgCountryController@getCountryMulti');
-Route::post('province/{locale}', 'bgies\BgCountry\BgCountryController@getProvinceMulti');
-Route::post('city/{locale}', 'bgies\BgCountry\BgCountryController@getCityMulti');
+/* Routes To get select list via AJAX for Single Language */
+Route::any('bgcountry/default', ['as' => 'bgcountry.default', 'uses' => 'bgies\BgCountry\BgCountryController@getCountries']);
+Route::any('bgprovince/default', ['as' => 'bgprovince.default', 'uses' => 'bgies\BgCountry\BgCountryController@getProvince']);
+Route::any('bgcity/default', ['as' => 'bgcity.default', 'uses' => 'bgies\BgCountry\BgCountryController@getCity']);
+/* Routes To get select list via AJAX for Multi Language */
+Route::any('bgcountry/{locale}', ['as' => 'bgcountry.locale', 'uses' => 'bgies\BgCountry\BgCountryController@getCountryMulti']);
+Route::any('bgprovince/{locale}', ['as' => 'bgprovince.locale', 'uses' => 'bgies\BgCountry\BgCountryController@getProvinceMulti']);
+Route::any('bgcity/{locale}', ['as' => 'bgcity.locale', 'uses' => 'bgies\BgCountry\BgCountryController@getCityMulti']);
 
 
 Route::get('bgcountry/migration', 'bgies\BgCountry\BgCountryController@createMigration');

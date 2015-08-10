@@ -23,10 +23,14 @@ return array(
 		 * (up to 100 characters), you can change it.
 		 */
 		'use_province_short_name'	=> true,
+		/* Normally you will want to add a blank entry as the first entry
+		 * of the country, province and city select
+		 */
+		'add_blank_to_lists'	=> true,
 		
 		/* Names for the database tables 
 		 * Note that you need to change these BEFORE you do the migrations,
-		 * and you can't change them after unless you rollback the migration first
+		 * and you can't change them after unless you rollback the migration first.
 		 */
 		'countryTable' => 'bgcountry',
 		'countryLanguageTable' => 'bgcountry_lang',
