@@ -1,0 +1,30 @@
+{
+    "name": "bgies/bgcountry",
+    "description": "Country, Province/State, City Selects made easy",
+    "keywords": [
+        "Country",
+        "State",
+        "Province",
+        "City",
+        "Select",
+        ":package_name"
+    ],
+    "homepage": "https://github.com/bgies/bgcountry-laravel",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "bgies",
+            "email": "rbgies@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "classmap": [
+            "src/commands"
+        ],
+        "psr-4": {
+            "Bgies\\BgCountry\\": "src/"
+        }
+    },    
+    "require": {}
+}

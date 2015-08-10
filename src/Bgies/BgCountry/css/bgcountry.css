@@ -1,0 +1,18 @@
+@CHARSET "ISO-8859-1";
+
+.bgc-row {
+	width: 100%;
+	padding: 0 5px;
+}
+
+.bgc-no-display {
+   display: none;
+}
+     
+.bgc-text-right {
+   text-align: right;
+}
+        
+.bgc-text-left {
+   text-align: left:
+}  
