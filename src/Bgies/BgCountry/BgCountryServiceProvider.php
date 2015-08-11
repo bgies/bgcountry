@@ -16,11 +16,6 @@ class BgCountryServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
-		
-//		    	$this->app->bind('bgcountry', function ($app) {
-//		    		return new Entrust($app);
-//		    	});
-		 
 //		$this->app->alias('bgcountry', 'Bgies\BgCountry');
 		
 		
@@ -52,22 +47,22 @@ class BgCountryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
     	if (! $this->app->routesAreCached()) {
     		//require __DIR__.'/../../routes.php';
     		require __DIR__.'/routes.php';
     	}  
     	
     	
-    	$this->app->make('Bgies\BgCountry\BgCountryController');
-    	
        $this->loadViewsFrom(__DIR__.'/views', 'bgcountry');
        $this->publishes([
-          __DIR__.'/views' => base_path('resources/views/bgies/bgcountry'),
-          __DIR__.'/css' => public_path('')
+          __DIR__.'/views' => base_path('resources/views/vendor/bgcountry'),
+          __DIR__.'/css' => public_path(''),
+     		 __DIR__.'/js' => public_path('')
        ]);
        // Register commands
-       $this->commands('command.bgcountry.migration');        
+       $this->commands('command.bgcountry.migration');
+       
+       $this->app->make('Bgies\BgCountry\BgCountryController');
     }
 
     
