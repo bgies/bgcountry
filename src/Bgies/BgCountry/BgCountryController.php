@@ -180,10 +180,12 @@ class BgCountryController extends Controller {
   
   
   public function getAdmin() {
+  		$countries = $this->db->table('bgcountry')->get();
   	  	$country_languages =	$this->db->table('bgcountry_language');  	
   	
-  	
-  		return view('bgcountry::admin');
+  		return view('bgcountry::admin')
+  			->with('countries', $countries)
+  	  		->with('country_codes_length', $this->country_codes_length);
   	
   	
   }

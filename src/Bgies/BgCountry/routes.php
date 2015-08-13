@@ -1,5 +1,7 @@
 <?php
 
+Route::get('bgcountry/migration', 'bgies\BgCountry\BgCountryController@createMigration');
+Route::get('bgcountry/admin', 'bgies\BgCountry\BgCountryController@getAdmin');
 /* Routes to get the Form */
 Route::get('bgcountry/form', ['as' => 'bgcountry.defaultform', 'uses' => 'bgies\BgCountry\BgCountryController@getDefaultForm']);
 Route::post('bgcountry/multi', ['as' => 'bgcountry.mulitform', 'uses' => 'bgies\BgCountry\BgCountryController@getMultiLanguageForm']);
@@ -14,6 +16,3 @@ Route::any('bgprovince/{locale}', ['as' => 'bgprovince.locale', 'uses' => 'bgies
 Route::any('bgcity/{locale}', ['as' => 'bgcity.locale', 'uses' => 'bgies\BgCountry\BgCountryController@getCityMulti']);
 
 
-Route::get('bgcountry/migration', 'bgies\BgCountry\BgCountryController@createMigration');
-
-Route::get('bgcountry/admin', 'bgies\BgCountry\BgCountryController@getAdmin');

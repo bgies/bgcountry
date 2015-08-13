@@ -1,4 +1,4 @@
-#This package is designed for a single language and is not complete yet. Please do not download it or use it until this Readme is updated
+###This package is designed for a single language and is not complete yet. Please do not download it or use it until this Readme is updated
 
 
 ## BgCountry
@@ -8,6 +8,7 @@ Collecting the country, state/province and city of your website users should be 
 if you're like me, almost every website you work on has slightly different requirements for it, and even when you have most of the information you need in your toolbox, you end up rewriting it for each website. 
 
 BgCountry solves the problem (at least for Laravel) by :
+
 1. using a common interface, and passing BOTH the selected value and displayed value
 2. giving you migrations that can be customized so you only have the data you need.
 3. Allowing you to choose a default language only, or several languages
@@ -33,7 +34,13 @@ BgCountry solves the problem (at least for Laravel) by :
 
     composer update
 
+4) Publish the views: 
+   Run the following command:
 
+    php artisan vendor:publish
+
+
+The views will be placed in the `resources/views/vendor/bgcountry folder`   
 
 
 ## Setup

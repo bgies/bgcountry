@@ -21,7 +21,7 @@ class BgCountryServiceProvider extends ServiceProvider
 		
 		//include __DIR__.'/routes.php';
 		$this->mergeConfigFrom(
-				__DIR__.'/config.php', 'bgcountry'
+				__DIR__.'/config/bgcountry.php', 'bgcountry'
 		);
 		 
 		 
@@ -57,7 +57,8 @@ class BgCountryServiceProvider extends ServiceProvider
        $this->publishes([
           __DIR__.'/views' => base_path('resources/views/vendor/bgcountry'),
           __DIR__.'/css' => public_path(''),
-     		 __DIR__.'/js' => public_path('')
+     		 __DIR__.'/js' => public_path(''),
+     		 __DIR__.'/config/bgcountry.php' => config_path('bgcountry.php'),
        ]);
        // Register commands
        $this->commands('command.bgcountry.migration');
