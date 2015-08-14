@@ -32,18 +32,4 @@ return array(
 		 * of the country, province and city select
 		 */
 		'add_blank_to_lists'	=> true,
-		
-		/* Names for the database tables 
-		 * Note that you need to change these BEFORE you do the migrations,
-		 * and you can't change them after unless you rollback the migration first.
-		 */
-		'countryTable' => 'bgcountry',
-		'countryLanguageTable' => 'bgcountry_lang',
-		
-		'provinceTable' => 'bgprovince',
-		'provinceLanguageTable' => 'bgprovince_lang',
-		
-		'cityTable' => 'bgcity',
-		'cityLanguageTable'  => 'bgcity_lang'		
-		
 );

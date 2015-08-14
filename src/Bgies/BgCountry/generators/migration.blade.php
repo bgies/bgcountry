@@ -12,23 +12,20 @@ class BgcountrySetupTables extends Migration
      */
     public function up()
     {
-           // Create country table
-           Schema::create('{{ $countryTable }}', function (Blueprint $table) {
-	      		$table->increments('id');
-   	 	   	$table->tinyInteger('cty_active')->default(1);
-               $table->string('continent_code', 2);
-               $table->string('continent_name', 20);
-       			$table->string('cty_code_2', 2)->unique();
-    	    		$table->string('cty_code_3', 3)->unique();
-               $table->string('cty_short_name', 25)->unique();
-               $table->string('cty_long_name', 100)->unique();
+        // Create country table
+        Schema::create('{{ $countryTable }}', function (Blueprint $table) {
+      		$table->increments('id');
+  	 	   	$table->tinyInteger('cty_active')->default(1);
+            $table->string('continent_code', 2);
+            $table->string('continent_name', 20);
+    			$table->string('cty_code_2', 2)->unique();
+  	    		$table->string('cty_code_3', 3)->unique();
+            $table->string('cty_short_name', 25)->unique();
+            $table->string('cty_long_name', 100)->unique();
             
-               $table->timestamps();
-           });
+            $table->timestamps();
+        });
  
-
-
-        @if ($setupMultiLanguage == 'yes') 
 
         // Create country language table
         Schema::create('{{ $countryLanguageTable }}', function (Blueprint $table) {
@@ -41,7 +38,6 @@ class BgcountrySetupTables extends Migration
             $table->timestamps();
         });
 
-         @endif
 
         // Create province table
         Schema::create('{{ $provinceTable }}', function (Blueprint $table) {
@@ -65,8 +61,7 @@ class BgcountrySetupTables extends Migration
             $table->index(['cty_code_3']);
         });
 
-
-         @if ($setupMultiLanguage == 'yes') 
+ 
         // Create province language table
         Schema::create('{{ $provinceLanguageTable }}', function (Blueprint $table) {
             $table->increments('id');
@@ -81,7 +76,7 @@ class BgcountrySetupTables extends Migration
             $table->index(['prov_id', 'prl_language']);
             $table->index(['prov_id']);
         });
-         @endif
+
 
         // Create table for cities
         Schema::create('{{ $cityTable }}', function (Blueprint $table) {
@@ -119,20 +114,20 @@ class BgcountrySetupTables extends Migration
         });
 
 
-         @if ($setupMultiLanguage == 'yes') 
+ 
         // Create table for city languages
         Schema::create('{{ $cityLanguageTable }}', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('city_id')->unsigned();
 
             $table->string('city_language', 6);
-            $table->string('ctl_name', 100);
+            $table->string('city_name', 100);
 
             $table->foreign('city_id')->references('id')->on('{{ $cityTable }}');
 
             $table->index(['city_id', 'city_language', 'city_name']);
         });
-        @endif
+
         
     }
 

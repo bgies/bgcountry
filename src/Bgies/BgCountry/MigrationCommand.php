@@ -10,6 +10,7 @@
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
+use Illuminate\ Filesystem\Filesystem as fileSystem;
 
 class MigrationCommand extends Command
 {
@@ -47,7 +48,6 @@ class MigrationCommand extends Command
     	$this->info( "BgCountry MigrationCommand" );    	
     	
     	// this is called from a command so we need to add our namespace (to the src directory)
-    	//$this->info('Adding Temporary namespace bgcountry at : ' . substr(__DIR__, 0) );
       $this->laravel->view->addNamespace('bgcountry', substr(__DIR__, 0) );
 
       $countryTable         =  'bgcountry';
@@ -68,11 +68,9 @@ class MigrationCommand extends Command
       $this->comment($message);
       $this->line('');
 
-      $defaultLocale = $this->choice('Enter the number of the default locale (<enter> for en) : ', ['de', 'en', 'es', 'fr', 'ja', 'pt', 'ru', 'zh'], 1, 3, false);
+      $defaultLocale = $this->choice('Enter the number of the default locale (<enter> for en) : ', ['de', 'en', 'es', 'fr', 'ja', 'pt-br', 'ru', 'zh-cn'], 1, 3, false);
       $this->line('');
-      $setupMultiLanguage = $this->choice('Do you want to support Multiple Languages? (<enter> for no) : ', ['yes', 'no'], 1, 3, false);
-      $this->line('');
-      if (!$this->confirm("You have chosen " . $defaultLocale . " and Multi Language = " . $setupMultiLanguage . ". Proceed with the migration creation? [Yes|no]", "Yes")) {
+      if (!$this->confirm("You have chosen " . $defaultLocale . ". Proceed with the migration creation? [Yes|no]", "Yes")) {
       	$this->line('');
       	$this->info('User aborted migration... ');
       	return;
@@ -80,13 +78,8 @@ class MigrationCommand extends Command
       
       $this->info("Creating migration...");
           
-      if ($this->createMigration($defaultLocale, $setupMultiLanguage, $countryTable, $countryLanguageTable, $provinceTable, $provinceLanguageTable, $cityTable, $cityLanguageTable)) {
+      if ($this->createMigration($defaultLocale, $countryTable, $countryLanguageTable, $provinceTable, $provinceLanguageTable, $cityTable, $cityLanguageTable)) {
          $this->info("Migration successfully created!");
-         
-         
-         
-         
-         
          
       } else {
          $this->error(
@@ -105,13 +98,12 @@ class MigrationCommand extends Command
      *
      * @return bool
      */
-    protected function createMigration($defaultLocale, $setupMultiLanguage, $countryTable, $countryLanguageTable, $provinceTable, $provinceLanguageTable, $cityTable, $cityLanguageTable)
+    protected function createMigration($defaultLocale, $countryTable, $countryLanguageTable, $provinceTable, $provinceLanguageTable, $cityTable, $cityLanguageTable)
     {
         $migrationFile = base_path("/database/migrations")."/".date('Y_m_d_His')."_bgcountry_setup_tables.php";
 
         $data = [
         		'defaultLocale' => $defaultLocale,
-        		'setupMultiLanguage' => $setupMultiLanguage,
         		'countryTable' => $countryTable,
         		'countryLanguageTable' => $countryLanguageTable,
         		'provinceTable' => $provinceTable,
@@ -120,19 +112,29 @@ class MigrationCommand extends Command
         		'cityLanguageTable' => $cityLanguageTable
         ];
         // Generate the Migration
-        //$data = compact('countryTable' => $countryTable, $countryLanguageTable, $provinceTable, $provinceLanguageTable, $cityTable, $cityLanguageTable);
         $output = $this->laravel->view->make('bgcountry::generators.migration')->with($data)->render();
-
-        // Generate the Seeders
-        
-        
         
         if (!file_exists($migrationFile) && $fs = fopen($migrationFile, 'x')) {
             fwrite($fs, $output);
             fclose($fs);
-            return true;
+            
+            // publish the default locale Country Seeder
+            $seederPath = __DIR__.'/seeders/Bgcountry' . studly_case($defaultLocale) . 'TableSeeder.php';
+            $seederOutput = \File::get($seederPath);
+            $seederFile = base_path("/database/seeds")."/BgcountryTableSeeder.php";
+            if (!file_exists($seederFile) && $fs = fopen($seederFile, 'x')) {
+            	fwrite($fs, $output);
+            	fclose($fs);
+            	$this->line('');
+            	$this->info("Seed file " . $seederFile . " created in database/seeds directory. ");
+            	return true;
+            }
+            
+            $this->info("Seed file " . $seederFile . " exists. Cannot overwrite...");
+            return false;
         }
 
+		  $this->info("Migration File " . $$migrationFile . " exists. Cannot overwrite...");            		
         return false;
     }
 }

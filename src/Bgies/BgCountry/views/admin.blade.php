@@ -18,7 +18,10 @@
             <div class="col-xs-6 col-sm-3">
                <h4>Installed Languages</h4>
                <ul class="list-unstyled">
+                  @foreach ($installedlanguage as $language)
                   
+                  
+                  @endforeach   
                
                
                
@@ -52,7 +55,7 @@
                   <tr class="{!! ($country->cty_active == 1 ? 'success' : 'warning')  !!}">
                      <td><input name="county_{!! $country->id !!}" class="country-enable"  type="checkbox" {!! ($country->cty_active == 1 ? 'checked="checked"' : '')  !!} /></td>
                      <td>{!! $country->cty_short_name !!}</td>
-                     <td><input class="view-province-button" data-country="{!! ($country_codes_length == 3 ? $country->cty_code_3 : $country->cty_code_2) !!}" type="button" value="View" /></td>
+                     <td><input class="view-province-button" data-url="{!! route('bgprovince.locale', array( )) !!} " data-country="{!! ($country_codes_length == 3 ? $country->cty_code_3 : $country->cty_code_2) !!}" type="button" value="View" /></td>
                                   
                
                   </tr>
@@ -114,7 +117,7 @@
              
          });
 
-         jQuery('#view-province-button').off('click').on('click', function(ev) {
+         jQuery('.view-province-button').off('click').on('click', function(ev) {
              var selCountry = jQuery(this).attr('data-country');
              
              alert('save checked'); 

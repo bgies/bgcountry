@@ -183,6 +183,10 @@ class BgCountryController extends Controller {
   		$countries = $this->db->table('bgcountry')->get();
   	  	$country_languages =	$this->db->table('bgcountry_language');  	
   	
+//  	  	$installedLanguages = $this->db->table('bgcountry')
+  	  	
+  	  	
+  	  	
   		return view('bgcountry::admin')
   			->with('countries', $countries)
   	  		->with('country_codes_length', $this->country_codes_length);
