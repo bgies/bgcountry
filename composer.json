@@ -26,5 +26,7 @@
             "Bgies\\BgCountry\\": "src/"
         }
     },    
-    "require": {}
+    "require": {
+        "php": ">=5.5.9"
+    }
 }
